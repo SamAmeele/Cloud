@@ -1,0 +1,432 @@
+[
+    {
+        "id": "29a2cc47a8487461",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "056cfd6a7e23aeeb",
+        "type": "mqtt-broker",
+        "name": "mosquitto",
+        "broker": "mosquitto",
+        "port": "3500",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "015b7bec7dbe3d7d",
+        "type": "ui_tab",
+        "name": "Home",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "2ee8a17e0c3024bd",
+        "type": "ui_base",
+        "theme": {
+            "name": "theme-light",
+            "lightTheme": {
+                "default": "#0094CE",
+                "baseColor": "#0094CE",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+                "edited": true,
+                "reset": false
+            },
+            "darkTheme": {
+                "default": "#097479",
+                "baseColor": "#097479",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+                "edited": false
+            },
+            "customTheme": {
+                "name": "Untitled Theme 1",
+                "default": "#4B7930",
+                "baseColor": "#4B7930",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
+            },
+            "themeState": {
+                "base-color": {
+                    "default": "#0094CE",
+                    "value": "#0094CE",
+                    "edited": false
+                },
+                "page-titlebar-backgroundColor": {
+                    "value": "#0094CE",
+                    "edited": false
+                },
+                "page-backgroundColor": {
+                    "value": "#fafafa",
+                    "edited": false
+                },
+                "page-sidebar-backgroundColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "group-textColor": {
+                    "value": "#1bbfff",
+                    "edited": false
+                },
+                "group-borderColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "group-backgroundColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "widget-textColor": {
+                    "value": "#111111",
+                    "edited": false
+                },
+                "widget-backgroundColor": {
+                    "value": "#0094ce",
+                    "edited": false
+                },
+                "widget-borderColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "base-font": {
+                    "value": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
+                }
+            },
+            "angularTheme": {
+                "primary": "indigo",
+                "accents": "blue",
+                "warn": "red",
+                "background": "grey",
+                "palette": "light"
+            }
+        },
+        "site": {
+            "name": "Node-RED Dashboard",
+            "hideToolbar": "false",
+            "allowSwipe": "false",
+            "lockMenu": "false",
+            "allowTempTheme": "true",
+            "dateFormat": "DD/MM/YYYY",
+            "sizes": {
+                "sx": 48,
+                "sy": 48,
+                "gx": 6,
+                "gy": 6,
+                "cx": 6,
+                "cy": 6,
+                "px": 0,
+                "py": 0
+            }
+        }
+    },
+    {
+        "id": "b158160e5462dfdd",
+        "type": "ui_group",
+        "name": "Controller",
+        "tab": "015b7bec7dbe3d7d",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "8c3152ac9ea25bcc",
+        "type": "mqtt in",
+        "z": "29a2cc47a8487461",
+        "name": "",
+        "topic": "controller/#",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "056cfd6a7e23aeeb",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 60,
+        "y": 180,
+        "wires": [
+            [
+                "5a16bac9ebe4e607"
+            ]
+        ]
+    },
+    {
+        "id": "bfb831bfdaa6f7cf",
+        "type": "change",
+        "z": "29a2cc47a8487461",
+        "name": "Extract battery",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "msg.payload.battery",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 640,
+        "y": 100,
+        "wires": [
+            [
+                "4ddf567e02c9c805"
+            ]
+        ]
+    },
+    {
+        "id": "ada48867aa70b81b",
+        "type": "change",
+        "z": "29a2cc47a8487461",
+        "name": "Button A",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "msg.payload.buttons.A",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 620,
+        "y": 280,
+        "wires": [
+            [
+                "d414d02d5e7cee23"
+            ]
+        ]
+    },
+    {
+        "id": "fa1dae86885fc337",
+        "type": "change",
+        "z": "29a2cc47a8487461",
+        "name": "Button B",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "msg.payload.buttons.B",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 620,
+        "y": 340,
+        "wires": [
+            [
+                "2c032bebaf11cc43"
+            ]
+        ]
+    },
+    {
+        "id": "4ddf567e02c9c805",
+        "type": "ui_gauge",
+        "z": "29a2cc47a8487461",
+        "name": "",
+        "group": "b158160e5462dfdd",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Battery %",
+        "label": "%",
+        "format": "{{msg.payload}}",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#b30000",
+            "#d37722",
+            "#1ec21e"
+        ],
+        "seg1": "20",
+        "seg2": "50",
+        "diff": false,
+        "className": "",
+        "x": 800,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "2c032bebaf11cc43",
+        "type": "ui_switch",
+        "z": "29a2cc47a8487461",
+        "name": "",
+        "label": "Button B",
+        "tooltip": "",
+        "group": "b158160e5462dfdd",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 800,
+        "y": 340,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "d414d02d5e7cee23",
+        "type": "ui_switch",
+        "z": "29a2cc47a8487461",
+        "name": "",
+        "label": "Button A",
+        "tooltip": "",
+        "group": "b158160e5462dfdd",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 800,
+        "y": 280,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "9e4135597d95e74f",
+        "type": "debug",
+        "z": "29a2cc47a8487461",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 620,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "5a16bac9ebe4e607",
+        "type": "function",
+        "z": "29a2cc47a8487461",
+        "name": "to_json",
+        "func": "if (typeof msg.payload === \"string\") {\n    try {\n        msg.payload = JSON.parse(msg.payload);\n    } catch (e) {\n        node.warn(\"Kon payload niet parsen: \" + e.message);\n    }\n}\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 200,
+        "y": 180,
+        "wires": [
+            [
+                "9e4135597d95e74f",
+                "bfb831bfdaa6f7cf",
+                "ada48867aa70b81b",
+                "fa1dae86885fc337",
+                "7943d9ee85983236"
+            ]
+        ]
+    },
+    {
+        "id": "7943d9ee85983236",
+        "type": "function",
+        "z": "29a2cc47a8487461",
+        "name": "toXY",
+        "func": "const x = Number(msg.payload?.joystick?.x);\nconst y = Number(msg.payload?.joystick?.y);\nif (Number.isFinite(x) && Number.isFinite(y)) { msg.payload = { x, y }; return msg; }\nreturn null;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 630,
+        "y": 140,
+        "wires": [
+            [
+                "e5d8331f25939ab4"
+            ]
+        ]
+    },
+    {
+        "id": "e5d8331f25939ab4",
+        "type": "ui_template",
+        "z": "29a2cc47a8487461",
+        "group": "b158160e5462dfdd",
+        "name": "",
+        "order": 5,
+        "width": 0,
+        "height": 0,
+        "format": "<div\n  style=\"width:100%;height:100%;background:#0b1721;border-radius:12px;overflow:hidden;border:1px solid #123;position:relative\">\n  <svg id=\"joy\" viewBox=\"-1 -1 2 2\" preserveAspectRatio=\"xMidYMid meet\" style=\"width:100%;height:100%;display:block\">\n    <!-- grid -->\n    <defs>\n      <pattern id=\"grid\" width=\"0.2\" height=\"0.2\" patternUnits=\"userSpaceOnUse\">\n        <path d=\"M 0 0 L 0 0.2 M 0 0 L 0.2 0\" stroke=\"#1e2a36\" stroke-width=\"0.003\" />\n      </pattern>\n    </defs>\n    <rect x=\"-1\" y=\"-1\" width=\"2\" height=\"2\" fill=\"url(#grid)\" />\n    <!-- axes -->\n    <line x1=\"-1\" y1=\"0\" x2=\"1\" y2=\"0\" stroke=\"#335\" stroke-width=\"0.01\" />\n    <line x1=\"0\" y1=\"-1\" x2=\"0\" y2=\"1\" stroke=\"#335\" stroke-width=\"0.01\" />\n    <!-- labels -->\n    <text x=\"0.95\" y=\"-0.05\" fill=\"#889\" font-size=\"0.12\" text-anchor=\"end\">X</text>\n    <text x=\"0.05\" y=\"-0.95\" fill=\"#889\" font-size=\"0.12\">Y</text>\n    <!-- dot -->\n    <circle id=\"dot\" cx=\"0\" cy=\"0\" r=\"0.05\" fill=\"#1ec8ff\" stroke=\"#0ff\" stroke-width=\"0.005\" />\n  </svg>\n\n  <!-- live waarden rechtsboven -->\n  <div id=\"vals\" style=\"position:absolute;right:8px;top:6px;color:#a8c7ff;font:600 12px/1.2 sans-serif;\"></div>\n</div>\n\n<script>\n  (function(scope){\n  const dot = () => document.getElementById('dot');\n  const vals = () => document.getElementById('vals');\n\n  function clamp(v,min,max){ return Math.max(min, Math.min(max, v)); }\n\n  function render(x, y){\n    // SVG-coords: X normaal, Y omhoog is + (dus we draaien om)\n    const cx = clamp(x, -1, 1);\n    const cy = -clamp(y, -1, 1);\n    const d = dot(); if(!d) return;\n    d.setAttribute('cx', cx);\n    d.setAttribute('cy', cy);\n    const v = vals(); if(v) v.textContent = `x=${x.toFixed(2)}  y=${y.toFixed(2)}`;\n  }\n\n  scope.$watch('msg', function(msg){\n    if(!msg || !msg.payload) return;\n    const p = msg.payload;\n    if (typeof p.x === 'number' && typeof p.y === 'number') {\n      render(p.x, p.y);\n    }\n  });\n})(scope);\n</script>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 800,
+        "y": 140,
+        "wires": [
+            []
+        ]
+    }
+]

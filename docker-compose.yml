@@ -1,0 +1,43 @@
+services:
+  # 🟢 MQTT Broker (Mosquitto)
+  mosquitto:
+    image: eclipse-mosquitto:2
+    container_name: mqtt-broker
+    restart: always
+    ports:
+      - "3500:3500"
+    volumes:
+      - ./mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
+      - ./data:/mosquitto/data
+      - ./log:/mosquitto/log
+    networks:
+      - sensor-net
+
+  # 🟣 Python Publisher (Controller Simulator)
+  publisher:
+    build: ./publisher
+    container_name: controller-sim
+    restart: always
+    depends_on:
+      - mosquitto
+    networks:
+      - sensor-net
+    command: ["python","publisher.py","--host","mosquitto","--port","3500","--interval","0.2"]
+
+  # 🟠 Node-RED
+  nodered:
+    image: nodered/node-red:3.1
+    container_name: node-red
+    restart: always
+    depends_on:
+      - mosquitto
+    ports:
+      - "3501:1880"       # open Node-RED via http://localhost:3501
+    networks:
+      - sensor-net
+    volumes:
+      - ./nodered_data:/data
+
+networks:
+  sensor-net:
+    driver: bridge

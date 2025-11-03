@@ -1,0 +1,484 @@
+[
+    {
+        "id": "29a2cc47a8487461",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "056cfd6a7e23aeeb",
+        "type": "mqtt-broker",
+        "name": "mosquitto",
+        "broker": "mosquitto",
+        "port": "3500",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "015b7bec7dbe3d7d",
+        "type": "ui_tab",
+        "name": "Home",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "2ee8a17e0c3024bd",
+        "type": "ui_base",
+        "theme": {
+            "name": "theme-light",
+            "lightTheme": {
+                "default": "#0094CE",
+                "baseColor": "#0094CE",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+                "edited": true,
+                "reset": false
+            },
+            "darkTheme": {
+                "default": "#097479",
+                "baseColor": "#097479",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+                "edited": false
+            },
+            "customTheme": {
+                "name": "Untitled Theme 1",
+                "default": "#4B7930",
+                "baseColor": "#4B7930",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
+            },
+            "themeState": {
+                "base-color": {
+                    "default": "#0094CE",
+                    "value": "#0094CE",
+                    "edited": false
+                },
+                "page-titlebar-backgroundColor": {
+                    "value": "#0094CE",
+                    "edited": false
+                },
+                "page-backgroundColor": {
+                    "value": "#fafafa",
+                    "edited": false
+                },
+                "page-sidebar-backgroundColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "group-textColor": {
+                    "value": "#1bbfff",
+                    "edited": false
+                },
+                "group-borderColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "group-backgroundColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "widget-textColor": {
+                    "value": "#111111",
+                    "edited": false
+                },
+                "widget-backgroundColor": {
+                    "value": "#0094ce",
+                    "edited": false
+                },
+                "widget-borderColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "base-font": {
+                    "value": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
+                }
+            },
+            "angularTheme": {
+                "primary": "indigo",
+                "accents": "blue",
+                "warn": "red",
+                "background": "grey",
+                "palette": "light"
+            }
+        },
+        "site": {
+            "name": "Node-RED Dashboard",
+            "hideToolbar": "false",
+            "allowSwipe": "false",
+            "lockMenu": "false",
+            "allowTempTheme": "true",
+            "dateFormat": "DD/MM/YYYY",
+            "sizes": {
+                "sx": 48,
+                "sy": 48,
+                "gx": 6,
+                "gy": 6,
+                "cx": 6,
+                "cy": 6,
+                "px": 0,
+                "py": 0
+            }
+        }
+    },
+    {
+        "id": "b158160e5462dfdd",
+        "type": "ui_group",
+        "name": "Controller",
+        "tab": "015b7bec7dbe3d7d",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "8c3152ac9ea25bcc",
+        "type": "mqtt in",
+        "z": "29a2cc47a8487461",
+        "name": "",
+        "topic": "controller/#",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "056cfd6a7e23aeeb",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 60,
+        "y": 180,
+        "wires": [
+            [
+                "5a16bac9ebe4e607"
+            ]
+        ]
+    },
+    {
+        "id": "a337e8a7d9295771",
+        "type": "change",
+        "z": "29a2cc47a8487461",
+        "name": "Extract joystick",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "msg.payload.joystick.x",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 640,
+        "y": 180,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "bfb831bfdaa6f7cf",
+        "type": "change",
+        "z": "29a2cc47a8487461",
+        "name": "Extract battery",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "msg.payload.battery",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 640,
+        "y": 100,
+        "wires": [
+            [
+                "4ddf567e02c9c805"
+            ]
+        ]
+    },
+    {
+        "id": "ada48867aa70b81b",
+        "type": "change",
+        "z": "29a2cc47a8487461",
+        "name": "Button A",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "msg.payload.buttons.A",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 620,
+        "y": 280,
+        "wires": [
+            [
+                "d414d02d5e7cee23"
+            ]
+        ]
+    },
+    {
+        "id": "fa1dae86885fc337",
+        "type": "change",
+        "z": "29a2cc47a8487461",
+        "name": "Button B",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "msg.payload.buttons.B",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 620,
+        "y": 340,
+        "wires": [
+            [
+                "2c032bebaf11cc43"
+            ]
+        ]
+    },
+    {
+        "id": "4ddf567e02c9c805",
+        "type": "ui_gauge",
+        "z": "29a2cc47a8487461",
+        "name": "",
+        "group": "b158160e5462dfdd",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Battery %",
+        "label": "%",
+        "format": "{{msg.payload}}",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#b30000",
+            "#d37722",
+            "#1ec21e"
+        ],
+        "seg1": "20",
+        "seg2": "50",
+        "diff": false,
+        "className": "",
+        "x": 800,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "2c032bebaf11cc43",
+        "type": "ui_switch",
+        "z": "29a2cc47a8487461",
+        "name": "",
+        "label": "Button B",
+        "tooltip": "",
+        "group": "b158160e5462dfdd",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 800,
+        "y": 340,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "d414d02d5e7cee23",
+        "type": "ui_switch",
+        "z": "29a2cc47a8487461",
+        "name": "",
+        "label": "Button A",
+        "tooltip": "",
+        "group": "b158160e5462dfdd",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 800,
+        "y": 280,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "9e4135597d95e74f",
+        "type": "debug",
+        "z": "29a2cc47a8487461",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 620,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "5a16bac9ebe4e607",
+        "type": "function",
+        "z": "29a2cc47a8487461",
+        "name": "to_json",
+        "func": "if (typeof msg.payload === \"string\") {\n    try {\n        msg.payload = JSON.parse(msg.payload);\n    } catch (e) {\n        node.warn(\"Kon payload niet parsen: \" + e.message);\n    }\n}\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 200,
+        "y": 180,
+        "wires": [
+            [
+                "9e4135597d95e74f",
+                "bfb831bfdaa6f7cf",
+                "ada48867aa70b81b",
+                "fa1dae86885fc337",
+                "7943d9ee85983236",
+                "a337e8a7d9295771",
+                "76be1e0817d082a4"
+            ]
+        ]
+    },
+    {
+        "id": "76be1e0817d082a4",
+        "type": "change",
+        "z": "29a2cc47a8487461",
+        "name": "Extract joystick",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "msg.payload.joystick.y",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 640,
+        "y": 220,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "7943d9ee85983236",
+        "type": "function",
+        "z": "29a2cc47a8487461",
+        "name": "toXY",
+        "func": "// haal x,y uit je bericht en stuur alleen dat door\nconst x = Number(msg.payload.joystick?.x);\nconst y = Number(msg.payload.joystick?.y);\nif (Number.isFinite(x) && Number.isFinite(y)) {\n    msg.payload = { x, y };   // in bereik [-1, 1]\n    return msg;\n}\nreturn null;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 190,
+        "y": 260,
+        "wires": [
+            [
+                "e5d8331f25939ab4"
+            ]
+        ]
+    },
+    {
+        "id": "e5d8331f25939ab4",
+        "type": "ui_template",
+        "z": "29a2cc47a8487461",
+        "group": "b158160e5462dfdd",
+        "name": "",
+        "order": 5,
+        "width": 0,
+        "height": 0,
+        "format": "<div id=\"pad\" style=\"position:relative;width:100%;padding-top:100%;\n  background:#0b1721;border-radius:12px;overflow:hidden;border:1px solid #123\">\n    <!-- assen -->\n    <div id=\"axisX\" style=\"position:absolute;left:0;right:0;top:50%;height:1px;background:#335;\"></div>\n    <div id=\"axisY\" style=\"position:absolute;top:0;bottom:0;left:50%;width:1px;background:#335;\"></div>\n    <!-- stip -->\n    <div id=\"dot\" style=\"position:absolute;width:14px;height:14px;border-radius:50%;\n    background:#1ec8ff;box-shadow:0 0 10px #1ec8ff;\"></div>\n</div>\n\n<script>\n    (function(scope){\n  // bewaar trail (optioneel: lijntje met laatste posities)\n  let trail = [];\n  const TRAIL_LEN = 25;\n\n  function render(x, y){\n    const pad = document.getElementById(\"pad\");\n    const dot = document.getElementById(\"dot\");\n    if(!pad || !dot) return;\n\n    const w = pad.clientWidth, h = pad.clientHeight;\n    const r = 14; // diameter van de stip\n\n    // x,y ∈ [-1,1] -> pixelpositie (Y inverted voor scherm)\n    const px = ((x + 1) / 2) * (w - r);\n    const py = ((1 - (y + 1) / 2)) * (h - r);\n\n    dot.style.left = px + \"px\";\n    dot.style.top  = py + \"px\";\n\n    // optionele trail tekenen met kleine “ghost” puntjes\n    trail.push({px, py});\n    if(trail.length > TRAIL_LEN) trail.shift();\n\n    // verwijder oude ghosts\n    Array.from(pad.querySelectorAll(\".ghost\")).forEach(n => n.remove());\n    trail.forEach((p,i)=>{\n      const g = document.createElement(\"div\");\n      const s = 10 * (i / TRAIL_LEN) + 2; // kleiner naarmate ouder\n      g.className = \"ghost\";\n      g.style.cssText = `position:absolute;width:${s}px;height:${s}px;border-radius:50%;\n        background:#1ec8ff55;left:${p.px + (r-s)/2}px;top:${p.py + (r-s)/2}px`;\n      pad.appendChild(g);\n    });\n  }\n\n  scope.$watch('msg', function(msg){\n    if(!msg || !msg.payload) return;\n    const p = msg.payload;\n    if(typeof p.x === \"number\" && typeof p.y === \"number\"){\n      render(p.x, p.y);\n    }\n  });\n})(scope);\n</script>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 340,
+        "y": 260,
+        "wires": [
+            []
+        ]
+    }
+]
