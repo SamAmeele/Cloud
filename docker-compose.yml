@@ -22,7 +22,7 @@ services:
       - mosquitto
     networks:
       - sensor-net
-    command: ["python","publisher.py","--host","mosquitto","--port","3500","--interval","0.2"]
+    command: ["python","publisher.py","--host","mosquitto","--port","3500","--interval","1.0"]
 
   # 🟠 Node-RED
   nodered:
@@ -37,6 +37,27 @@ services:
       - sensor-net
     volumes:
       - ./nodered_data:/data
+  # 🔵 InfluxDB 2.x
+  influxdb:
+    image: influxdb:2.7
+    container_name: influxdb
+    restart: always
+    ports:
+      - "3502:8086"                   # web UI op http://localhost:3502
+    networks:
+      - sensor-net
+    volumes:
+      - ./influxdb-data:/var/lib/influxdb2
+      - ./influxdb-config:/etc/influxdb2
+    environment:
+      - DOCKER_INFLUXDB_INIT_MODE=setup
+      - DOCKER_INFLUXDB_INIT_USERNAME=admin
+      - DOCKER_INFLUXDB_INIT_PASSWORD=Admin!234
+      - DOCKER_INFLUXDB_INIT_ORG=ameel
+      - DOCKER_INFLUXDB_INIT_BUCKET=controller
+      - DOCKER_INFLUXDB_INIT_RETENTION=30d
+      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=avbpXMbJFJCmkFQmXjH9XhLqsIkGyYt9D_W3lWjtjm1q1liEfTArocaTYCzbfTeMG5mgpl29DfckYB3pFzhhbQ==
+
 
 networks:
   sensor-net:

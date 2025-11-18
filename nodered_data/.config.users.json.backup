@@ -16,6 +16,10 @@
                 "welcome": "3.1.15"
             }
         },
-        "menu-menu-item-palette": false
+        "menu-menu-item-palette": true,
+        "debug": {
+            "filter": "filterSelected",
+            "filteredNodes": []
+        }
     }
 }

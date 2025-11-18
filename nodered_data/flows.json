@@ -155,6 +155,21 @@
         "className": ""
     },
     {
+        "id": "aa66dccd3c1fc41c",
+        "type": "influxdb",
+        "hostname": "127.0.0.1",
+        "port": "8086",
+        "protocol": "http",
+        "database": "database",
+        "name": "out",
+        "usetls": false,
+        "tls": "",
+        "influxdbVersion": "2.0",
+        "url": "http://influxdb:8086",
+        "timeout": "10",
+        "rejectUnauthorized": true
+    },
+    {
         "id": "8c3152ac9ea25bcc",
         "type": "mqtt in",
         "z": "29a2cc47a8487461",
@@ -194,8 +209,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 640,
-        "y": 100,
+        "x": 680,
+        "y": 160,
         "wires": [
             [
                 "4ddf567e02c9c805"
@@ -221,8 +236,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 620,
-        "y": 280,
+        "x": 660,
+        "y": 240,
         "wires": [
             [
                 "d414d02d5e7cee23"
@@ -248,8 +263,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 620,
-        "y": 340,
+        "x": 660,
+        "y": 300,
         "wires": [
             [
                 "2c032bebaf11cc43"
@@ -280,8 +295,8 @@
         "seg2": "50",
         "diff": false,
         "className": "",
-        "x": 800,
-        "y": 100,
+        "x": 980,
+        "y": 160,
         "wires": []
     },
     {
@@ -310,8 +325,8 @@
         "offcolor": "",
         "animate": false,
         "className": "",
-        "x": 800,
-        "y": 340,
+        "x": 980,
+        "y": 300,
         "wires": [
             []
         ]
@@ -342,8 +357,8 @@
         "offcolor": "",
         "animate": false,
         "className": "",
-        "x": 800,
-        "y": 280,
+        "x": 980,
+        "y": 240,
         "wires": [
             []
         ]
@@ -357,11 +372,12 @@
         "tosidebar": true,
         "console": false,
         "tostatus": false,
-        "complete": "false",
+        "complete": "payload",
+        "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 620,
-        "y": 40,
+        "x": 660,
+        "y": 120,
         "wires": []
     },
     {
@@ -369,7 +385,7 @@
         "type": "function",
         "z": "29a2cc47a8487461",
         "name": "to_json",
-        "func": "if (typeof msg.payload === \"string\") {\n    try {\n        msg.payload = JSON.parse(msg.payload);\n    } catch (e) {\n        node.warn(\"Kon payload niet parsen: \" + e.message);\n    }\n}\nreturn msg;\n",
+        "func": "// Parse MQTT payload → JSON\nif (Buffer.isBuffer(msg.payload)) {\n    msg.payload = msg.payload.toString();\n}\n\nif (typeof msg.payload === \"string\") {\n    try {\n        msg.payload = JSON.parse(msg.payload);\n    } catch (e) {\n        node.warn(\"payload is geen geldige JSON: \" + msg.payload);\n        return null; // drop onleesbare berichten\n    }\n}\n\n// laat het bericht door\nreturn msg;\n",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -380,11 +396,7 @@
         "y": 180,
         "wires": [
             [
-                "9e4135597d95e74f",
-                "bfb831bfdaa6f7cf",
-                "ada48867aa70b81b",
-                "fa1dae86885fc337",
-                "7943d9ee85983236"
+                "0a043debca0596ab"
             ]
         ]
     },
@@ -400,8 +412,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 630,
-        "y": 140,
+        "x": 650,
+        "y": 200,
         "wires": [
             [
                 "e5d8331f25939ab4"
@@ -423,10 +435,53 @@
         "resendOnRefresh": true,
         "templateScope": "local",
         "className": "",
-        "x": 800,
-        "y": 140,
+        "x": 980,
+        "y": 200,
         "wires": [
             []
+        ]
+    },
+    {
+        "id": "de6adfbdf45b89ed",
+        "type": "influxdb out",
+        "z": "29a2cc47a8487461",
+        "influxdb": "aa66dccd3c1fc41c",
+        "name": "InfluxDB out",
+        "measurement": "",
+        "precision": "",
+        "retentionPolicy": "",
+        "database": "database",
+        "precisionV18FluxV20": "s",
+        "retentionPolicyV18Flux": "",
+        "org": "ameel",
+        "bucket": "controller",
+        "x": 670,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "0a043debca0596ab",
+        "type": "function",
+        "z": "29a2cc47a8487461",
+        "name": "toInflux_simple",
+        "func": "// Verwacht payload zoals uit je Python-simulator\nconst p = msg.payload || {};\n\n// timestamp in ns\nlet ts = Date.parse(p.timestamp);\nif (isNaN(ts)) ts = Date.now();\nts = ts * 1e6;\n\n// Measurement + tags\nmsg.measurement = \"controller\";\nmsg.tags = {\n    device_id: p.device_id || \"ctrl-001\"\n};\n\n// Alle relevante velden\nmsg.fields = {\n    battery: Number(p.battery ?? 0),\n    jx:      Number(p.joystick?.x ?? 0),\n    jy:      Number(p.joystick?.y ?? 0),\n    btnA:    p.buttons?.A ? 1 : 0,\n    btnB:    p.buttons?.B ? 1 : 0\n};\n\nmsg.timestamp = ts;\n\n// Handig voor debug\nmsg.payload = msg.fields;\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 400,
+        "y": 180,
+        "wires": [
+            [
+                "7943d9ee85983236",
+                "9e4135597d95e74f",
+                "bfb831bfdaa6f7cf",
+                "ada48867aa70b81b",
+                "fa1dae86885fc337",
+                "de6adfbdf45b89ed"
+            ]
         ]
     }
 ]
