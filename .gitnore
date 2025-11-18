@@ -4,4 +4,5 @@ nodered_data/.config.*
 nodered_data/flows_cred.json*
 influxdb-data/
 influxdb-config/influx-configs
+readme.txt
 *.log
