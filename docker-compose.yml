@@ -1,5 +1,3 @@
-version: "3.9"
-
 services:
   # 🟢 MQTT Broker (Mosquitto)
   mosquitto:
@@ -74,6 +72,7 @@ services:
       - portainer_data:/data
     networks:
       - sensor-net
+
 
 networks:
   sensor-net:
