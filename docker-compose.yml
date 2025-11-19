@@ -71,7 +71,7 @@ services:
       - "5005:9000"
     command: >
       --admin-password
-      '$2y$05$CSlT6GzCAJ4i19XKsFcOue6uHgBOPo3k672C6hsOpKXmfrT6ueCku'
+      '123456789123'
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - portainer_data:/data
