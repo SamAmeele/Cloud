@@ -1,0 +1,20 @@
+name: Deploy Docker stack
+
+on:
+  push:
+    branches:
+      - master    # of 'main' als je main gebruikt
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Maak deploy-script uitvoerbaar
+        run: chmod +x deploy.sh
+
+      - name: Deploy stack met Docker Compose
+        run: ./deploy.sh
