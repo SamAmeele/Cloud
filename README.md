@@ -1,53 +1,62 @@
-Dit project toont een volledige IoT-dataketen voor een controller met joystick, knoppen en batterij.
-Data wordt verzonden via MQTT, verwerkt in Node-RED, opgeslagen in InfluxDB en gevisualiseerd in zowel Node-RED Dashboard als InfluxDB.
+Dit project toont een volledige IoT-dataketen voor een controller met joystick, knoppen en batterij. Data wordt verzonden via MQTT, verwerkt in Node-RED, opgeslagen in InfluxDB en gevisualiseerd in zowel Node-RED Dashboard als InfluxDB. Alles draait via Docker Compose.
 
-Alles draait via Docker Compose.
-
-Project starten
+PROJECT STARTEN
 
 Project downloaden via:
 git clone https://github.com/SamAmeele/Cloud.git
+
 cd Cloud
+
 Services starten:
 docker compose up -d --build
 
 Dit start automatisch:
-
 MQTT Broker (Mosquitto)
 Node-RED
 InfluxDB v2
 Controller-simulator (Python script dat elke seconde data stuurt)
+Portainer (Docker beheeromgeving)
 
 Services stoppen:
 docker compose down
 
-Overzicht van services en URLs
+OVERZICHT VAN SERVICES EN URLS
 
-Node-RED Editor
+Node-RED Editor:
 http://localhost:3501
 
-Node-RED Dashboard
+Node-RED Dashboard:
 http://localhost:3501/ui
 
-InfluxDB UI
+InfluxDB UI:
 http://localhost:3502
 
-MQTT Broker
+MQTT Broker:
 mqtt://localhost:3500
 
-InfluxDB login
-De logingegevens staan in docker-compose.yml en worden aangemaakt via deze variabelen:
+Portainer (Docker beheeromgeving):
+https://localhost:5004
 
+of
+http://localhost:5005
+
+INFLUXDB LOGIN
+
+De logingegevens staan in docker-compose.yml en worden aangemaakt via deze variabelen:
 DOCKER_INFLUXDB_INIT_USERNAME = admin
 DOCKER_INFLUXDB_INIT_PASSWORD = Admin!234
 
 Log in op:
 http://localhost:3502
-Organisatie: waarde uit DOCKER_INFLUXDB_INIT_ORG
+
+Organisatie: waarde uit DOCKER_INFLUXDB_INIT_ORG (ameel)
 Bucket: controller
 Token: waarde van DOCKER_INFLUXDB_INIT_ADMIN_TOKEN
+
 Node-RED gebruikt dezelfde token om data weg te schrijven.
-MQTT data die wordt verzonden
+
+MQTT DATA DIE WORDT VERZONDEN
+
 De controller-simulator stuurt elke seconde een bericht naar het topic:
 controller/telemetry
 
@@ -58,86 +67,107 @@ jy → joystick Y waarde (tussen -1 en 1)
 btnA → knop A (0 of 1)
 btnB → knop B (0 of 1)
 
-Node-RED (flows en dashboard)
-Node-RED editor openen op:
+NODE-RED (FLOWS EN DASHBOARD)
+
+Node-RED openen op:
 http://localhost:3501
-Node-RED bevat al flows die:
-luisteren op MQTT topic controller/#
 
-het JSON bericht opsplitsen in: batterij, joystick X/Y, knoppen
-waarden naar InfluxDB schrijven
+Node-RED bevat al flows die luisteren op MQTT topic controller/#. Het JSON-bericht wordt opgesplitst in batterij, joystick X/Y en knoppen. De waarden worden daarna naar InfluxDB geschreven en gebruikt in het dashboard.
 
-het dashboard aanmaken
 Node-RED dashboard openen op:
 http://localhost:3501/ui
 
-Dit dashboard toont:
+Het dashboard toont:
 Live batterij gauge
 Gemiddelde batterij via InfluxDB query
-Joystick X-Y scatter die de laatste positie toont
-Button A en B (status en historiek)
+Joystick X-Y scatter (laatste positie)
+Button A en B (status + historiek)
 
-InfluxDB queries (Data Explorer)
+INFLUXDB QUERIES (DATA EXPLORER)
 
 Laatste status van een knop:
-Open Data Explorer.
-Selecteer bucket controller.
-Filter measurement controller.
-Filter field btnA of btnB.
-Gebruik range start = -10m.
-Sorteer op tijd in dalende volgorde.
-Gebruik limit 1 om de meest recente waarde te krijgen.
-Dit toont de laatste knopstatus.
+Open Data Explorer
+Selecteer bucket controller
+Filter measurement controller
+Filter field btnA of btnB
+Range instellen op start = -10m
+Sorteren op tijd in dalende volgorde
+limit 1 nemen voor de laatste waarde
 
-In dashboard of grafiek betekent:
-btnA = 1 is knop A ingedrukt.
-btnA = 0 is knop A losgelaten.
-btnB werkt op dezelfde manier.
+btnA = 1 betekent knop A ingedrukt
+btnA = 0 betekent knop A losgelaten
+btnB werkt identiek
 
 Button B uitlezen:
-Open Data Explorer.
-Selecteer bucket controller.
-Filter measurement controller.
-Filter field btnB.
-Kies een tijdsperiode, bijvoorbeeld range start = -1min.
-De grafiek toont de status van knop B.
+Open Data Explorer
+Selecteer bucket controller
+Filter measurement controller
+Filter field btnB
+Tijdsperiode bijv. range start = -1min
+Grafiek toont statusveranderingen
 
 Gemiddelde batterij laatste minuut:
-Open Data Explorer.
-Selecteer bucket: controller.
-Filter op measurement: controller.
-Filter op field: battery.
-Zet de tijdsperiode op: range start = -1h.
-Gebruik daarna de functie mean om het gemiddelde te berekenen.
-Dit toont het gemiddelde batterijpercentage van het laatste uur.
+Open Data Explorer
+Selecteer bucket controller
+Filter measurement controller
+Filter field battery
+Range start = -1h
+Gebruik mean om het gemiddelde te berekenen
 
 Gemiddelde batterij laatste 24 uur:
-Open Data Explorer.
-Selecteer bucket: controller.
-Filter op measurement: controller.
-Filter op field: battery.
-Zet de tijdsperiode op: range start = -24h.
-Gebruik mean om het gemiddelde te berekenen.
-Dit toont het gemiddelde batterijpercentage van de laatste 24 uur.
+Range start = -24h
+Filter measurement controller
+Filter field battery
+Gebruik mean als aggregatie
 
-Laatste joystickpositie (voor scatter X-Y):
-Open Data Explorer.
-Selecteer bucket: controller.
-Filter op measurement: controller.
-Filter op fields: jx en jy.
-Tijdperiode instellen op range start = -10m.
-Pivot uitvoeren zodat jx en jy in één record terechtkomen.
-Sorteer op tijd, nieuwste bovenaan (sort descending).
-Neem daarna slechts één record via limit 1.
-Dit geeft de laatste joystickpositie.
+Laatste joystickpositie voor X-Y scatter:
+Open Data Explorer
+Selecteer bucket controller
+Filter measurement controller
+Filter fields jx en jy
+Range start = -10m
+Pivot uitvoeren zodat jx en jy in één rij staan
+Sorteren op tijd (nieuwste eerst)
+limit 1 nemen
 
-Scatter-instellingen voor joystick X-Y:
-X-as domain instellen van -1 tot 1.
-X-as tick interval instellen op 0.5.
-Y-as domain instellen van -1 tot 1.
-Y-as tick interval instellen op 0.5.
+Scatter-instellingen voor joystick:
+X-as domain instellen van -1 tot 1
+X-as interval instellen op 0.5
+Y-as domain instellen van -1 tot 1
+Y-as interval instellen op 0.5
 
-Containers beheren
+PORTAINER (DOCKER BEHEER)
+
+Portainer is een webinterface om Docker containers te beheren. Het maakt het eenvoudig om te zien welke containers draaien en om logs, poorten en status te controleren. Portainer wordt in dit project automatisch opgestart via docker-compose.
+
+Portainer openen kan via:
+https://localhost:5004/#!/3/docker/networks/taak_cloud_sensor-net
+
+of
+http://localhost:5005/#!/3/docker/networks/taak_cloud_sensor-net
+
+Bij de eerste keer openen werd een admin gebruiker aangemaakt.
+Het ingestelde wachtwoord is:
+123456789123
+
+In Portainer zie je de containers van dit project:
+mqtt-broker
+controller-sim
+node-red
+influxdb
+portainer
+
+Portainer helpt bij:
+Controleren van containerstatus
+Bekijken van logs
+Starten en stoppen van containers
+Controleren van poorten zoals 3500, 3501, 3502 en 5004
+Nakijken of de volledige IoT stack correct draait
+
+Doordat Portainer in docker-compose is opgenomen, start het automatisch mee met:
+docker compose up -d
+
+CONTAINERS BEHEREN
 
 Herstarten van alle containers:
 docker compose up -d --build
@@ -150,13 +180,13 @@ docker compose logs -f node-red
 docker compose logs -f influxdb
 docker compose logs -f mqtt-broker
 
-Samenvatting (simpel)
+SAMENVATTING
 
-Download repo via git clone
+Download de repo via git clone
 Start het project met docker compose up -d
 Open Node-RED op localhost:3501
 Open het dashboard op localhost:3501/ui
 Open InfluxDB op localhost:3502
+Open Portainer op localhost:5004
 De controller-simulator stuurt automatisch data
-
-Alles verschijnt live in het dashboard en InfluxDB
+Alles verschijnt live in het dashboard en in InfluxDB
