@@ -1,4 +1,4 @@
-ADit project toont een volledige IoT-dataketen voor een controller met joystick, knoppen en batterij. Data wordt verzonden via MQTT, verwerkt in Node-RED, opgeslagen in InfluxDB en gevisualiseerd in zowel Node-RED Dashboard als InfluxDB. Alles draait via Docker Compose.
+Dit project toont een volledige IoT-dataketen voor een controller met joystick, knoppen en batterij. Data wordt verzonden via MQTT, verwerkt in Node-RED, opgeslagen in InfluxDB en gevisualiseerd in zowel Node-RED Dashboard als InfluxDB. Alles draait via Docker Compose.
 
 PROJECT STARTEN
 
