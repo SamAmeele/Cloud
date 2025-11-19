@@ -8,6 +8,9 @@ echo "=== Cloud stack deployen ==="
 # Ga naar de map waar het script zelf staat
 cd "$(dirname "$0")"
 
+echo "[0/4] Portainer-data resetten (zodat admin-wachtwoord uit docker-compose.yml geldt)..."
+docker volume rm portainer_data || true
+
 echo "[1/4] Oude stack stoppen..."
 docker compose down
 
