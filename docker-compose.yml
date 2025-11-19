@@ -69,9 +69,6 @@ services:
     ports:
       - "5004:9443"
       - "5005:9000"
-    command: >
-      --admin-password
-      '123456789123'
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - portainer_data:/data
