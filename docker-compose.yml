@@ -60,21 +60,21 @@ services:
       - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=avbpXMbJFJCmkFQmXjH9XhLqsIkGyYt9D_W3lWjtjm1q1liEfTArocaTYCzbfTeMG5mgpl29DfckYB3pFzhhbQ==
 
   # 🟡 Portainer (Docker beheer UI)
-  portainer:
-    image: portainer/portainer-ce:latest
-    container_name: portainer
-    restart: always
-    ports:
-      - "5004:9443"
-      - "5005:9000"
-    command: >
-      --admin-password
-      '$2y$05$CSlT6GzCAJ4i19XKsFcOue6uHgBOPo3k672C6hsOpKXmfrT6ueCku'
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - portainer_data:/data
-    networks:
-      - sensor-net
+portainer:
+  image: portainer/portainer-ce:latest
+  container_name: portainer
+  restart: always
+  ports:
+    - "5004:9443"
+    - "5005:9000"
+  command:
+    - "--admin-password"
+    - "123456789123"
+  volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+    - portainer_data:/data
+  networks:
+    - sensor-net
 
 
 networks:
