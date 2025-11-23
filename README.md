@@ -146,9 +146,8 @@ https://localhost:5004/#!/3/docker/networks/taak_cloud_sensor-net
 of
 http://localhost:5005/#!/3/docker/networks/taak_cloud_sensor-net
 
-Bij de eerste keer openen werd een admin gebruiker aangemaakt.
-Het ingestelde wachtwoord is:
-123456789123
+Bij de eerste keer openen moet je een account maken.
+Het wachtwoord is zelf te kiezen.
 
 In Portainer zie je de containers van dit project:
 mqtt-broker
