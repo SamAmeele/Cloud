@@ -189,3 +189,56 @@ Open InfluxDB op localhost:3502
 Open Portainer op localhost:5004
 De controller-simulator stuurt automatisch data
 Alles verschijnt live in het dashboard en in InfluxDB
+
+Projectteam
+
+Sam Ameele
+
+Seppe Seghers
+
+Tijdens het project hebben beide teamleden volledig afzonderlijk gewerkt aan hun eigen implementatie van:
+
+Docker Compose stack
+
+MQTT-communicatie
+
+Python simulator
+
+Node-RED flows & dashboard
+
+InfluxDB en queries
+
+Dashboard visualisaties
+
+Troubleshooting & testen
+
+Iedere student heeft zijn eigen versie van het project ontwikkeld van begin tot eind.
+
+Waarom er uiteindelijk één project werd ingediend
+
+Hoewel we apart aan onze eigen projecten werkten, hebben we na afloop beide versies vergeleken.
+We kozen ervoor om de best functionerende en meest stabiele versie in te dienen als eindresultaat van de samenwerking.
+
+De redenen daarvoor:
+
+De ingediende versie werkte technisch het betrouwbaarst.
+
+De functionaliteit voldeed volledig aan alle projectvereisten.
+
+Beide studenten konden deze volledige versie begrijpen, uitleggen en reproduceren.
+
+Dit zorgt voor een duidelijke, consistente oplevering van het project.
+
+Belangrijk voor de evaluatie
+
+We hebben niet als duo aan dezelfde code gewerkt, maar losstaand dezelfde opdracht uitgevoerd.
+
+Beide studenten hebben het volledige project individueel gebouwd.
+
+De ingediende versie werd gekozen omdat deze het meest compleet en stabiel was, maar:
+we kunnen alle onderdelen van deze versie volledig uitleggen en verantwoorden.
+
+Conclusie
+
+Dit project vertegenwoordigt de gecombineerde kennis van beide studenten, maar het werk werd individueel uitgevoerd.
+De ingediende versie is de beste implementatie van de twee, en dient als het finale gezamenlijke resultaat.
